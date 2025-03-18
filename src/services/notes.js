@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = '/api/notes'
+const baseUrl = 'http://localhost:3002/api/notes'
 
 let token = null
 
@@ -13,6 +13,8 @@ const getAll = () => {
 }
 
 const create = async newObject => {
+  console.log('Using token:', token)  // Add this line for debugging
+
   const config = {
     headers: { Authorization: token },
   }
