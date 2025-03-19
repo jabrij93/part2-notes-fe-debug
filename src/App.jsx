@@ -77,6 +77,11 @@ const App = () => {
     }
   }
 
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedNoteappUser')
+    setUser(null)
+  }
+
   const addNote = (noteObject) => {
     noteFormRef.current.toggleVisibility()
     noteService
@@ -121,6 +126,7 @@ const App = () => {
       {!user && loginForm()}
       {user && <div>
         <p>{user.name} logged in</p>
+        <button onClick={handleLogout}>logout</button>
         <Togglable buttonLabel='new note' ref={noteFormRef}>
           <NoteForm
             createNote={addNote}
