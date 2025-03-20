@@ -4,18 +4,25 @@ import "react-datepicker/dist/react-datepicker.css"
 
 const NoteForm = ({ createNote }) => {
   const [newNote, setNewNote] = useState('')
-  const [selectedDate, setSelectedDate] = useState(new Date()) // Default date is today
+  const [selectedDate, setSelectedDate] = useState(null) // Default date is today
+
+  const localISOTime = selectedDate 
+    ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString() 
+    : null;
 
   const addNote = (event) => {
     event.preventDefault()
+
+    if (!selectedDate) return // Prevent submitting if no date is selected
+
     createNote({
       content: newNote,
-      important: true,
-      date: selectedDate.toISOString() // Send the date as an ISO string to the backend
+      date: localISOTime, // Keeps local time without shifting
+      important: true
     })
 
     setNewNote('')
-    setSelectedDate(new Date()) // Reset to current date
+    setSelectedDate(null) // Reset to current date
   }
 
   return (
@@ -32,7 +39,8 @@ const NoteForm = ({ createNote }) => {
           <DatePicker
             selected={selectedDate}
             onChange={date => setSelectedDate(date)}
-            dateFormat="yyyy-MM-dd"
+            dateFormat="yyyy-dd-MM" // Date format
+            placeholderText="Click to select a date" // Placeholder when empty
           />
         </div>
         <button type="submit">save</button>
