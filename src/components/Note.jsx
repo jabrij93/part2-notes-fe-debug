@@ -4,7 +4,7 @@ const Note = ({ note, toggleImportance }) => {
 
   return (
     <li className='note'>
-      <span>{note.content}, {note.date.split('T')[0].split('-').reverse().join('-')} </span> 
+      <span>{note.content}, {note.date ? note.date.split('T')[0].split('-').reverse().join('-') : 'No date available'} </span> 
       <button onClick={toggleImportance}>{label}</button>
     </li>
   )
